@@ -30,13 +30,14 @@ class UserAuthRepository extends BaseRepository
             return ['status' => false, 'response_message' => 'Email or phone number record already exist', 'data' => 'Email or phone number record already exist'];
         }
        
-        $user = $this->create([
+        $this->create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'referral_code' => $this->generateRandomString(),
         ]);
 
-        return ['status' => true, 'response_message' => 'User data created successfully', 'data' => $user];
+        return ['status' => true, 'response_message' => 'User data created successfully', 'data' => []];
     }
 
     public function loginUser($request)
@@ -67,8 +68,17 @@ class UserAuthRepository extends BaseRepository
         if(empty($user)) {
             return ['status' => false, 'response_message' => "User does not exist", 'data' => "User does not exist"];
         }
-
         return ['status' => true, 'response_message' => 'User data created successfully', 'data' => $user];
     }
 
+    function generateRandomString($length = 12)
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
 }

@@ -22,3 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('register', [\App\Http\Controllers\UserController::class, 'register']);
 Route::post('login', [\App\Http\Controllers\UserController::class, 'login']);
 Route::get('/user/{id}', [\App\Http\Controllers\UserController::class, 'getUserById']);
+Route::get('/', function () {
+    return "Welcome to Liveizy";
+});
